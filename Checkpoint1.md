@@ -1,6 +1,6 @@
 # Checkpoint 1
 
-## Project Plan
+## R1-1 Project Plan
 
 #### Team Members 
 
@@ -18,11 +18,12 @@ We will use four main collaboration tools: Google Drive for shared docs, Github,
 
 Agile: meeting before each sprint to discuss sprint plans, more frequent meetings to discuss blocks
 
-### Feature Board
+## R1-2 Feature Board
+[Project Backlog](https://github.com/users/jacksonjohnston238/projects/2)
 
-### High level sketch of application
+## R1-3 High level sketch of application
 
-### Choice of tools and approach 
+## R1-4 Choice of tools and approach 
 - Frontend - React
 - Backend - Flask
 - Database - MongoDB
