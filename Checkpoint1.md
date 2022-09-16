@@ -1,15 +1,30 @@
-R1-1:
-Team Members - Jackson Johnston, Nathan Stern, Shreekrishna Rout, Benjamin Wang, and Zakky Momin
-Sprint Velocity - 1 week sprints
-Collaboration Tools - We will use four main collaboration tools. Google Drive/docs, Github, Zoom, and GroupMe. 
-Implementation Methodology - Agile, meeting before each sprint, meetings to discuss blocks
+# Checkpoint 1
 
-R1-2:
-Features on a board
-Initial work items
+## Project Plan
 
-R1-3:
-High level sketch of application
+#### Team Members 
 
-R1-4:
-Choice of tools and approach - React.js, Python Flask, MongoDB, PyTest, Heruko Cloud Deploy
+Jackson Johnston, Nathan Stern, Shreekrishna Rout, Benjamin Wang, and Zakky Momin
+
+### Sprint Velocity 
+
+1 week sprints
+
+### Collaboration Tools 
+
+We will use four main collaboration tools: Google Drive for shared docs, Github, Zoom for team meetings, and GroupMe for daily contact. 
+
+### Implementation Methodology 
+
+Agile: meeting before each sprint to discuss sprint plans, more frequent meetings to discuss blocks
+
+### Feature Board
+
+### High level sketch of application
+
+### Choice of tools and approach 
+- Frontend - React
+- Backend - Flask
+- Database - MongoDB
+- Deployment - Heruko Cloud Deploy
+- Testing - PyTest
