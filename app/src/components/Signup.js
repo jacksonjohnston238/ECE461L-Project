@@ -1,14 +1,14 @@
 import { Stack, Box, TextField, Button } from "@mui/material"
 import { useState } from "react"
 
-function Login(){
+function Signup(){
 
     const [username, setUsername] = useState('')
     const [userid, setUserID] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
 
     return (
-        
         <Box
       sx={{
         display: 'flex',
@@ -20,7 +20,7 @@ function Login(){
     >
             <Box sx={{border: 4, borderColor: 'blueviolet', p:5, pt:1}}>
             <Stack spacing={2}>
-                <h1>Login</h1>
+                <h1>Sign Up</h1>
                 <h2>Username</h2>
                 <TextField value={username === 0 ? '' : username} type="string" id="outlined-basic" label="Enter Username" variant="outlined" onChange={(e) =>{
                     setUsername(e.target.value)
@@ -33,17 +33,21 @@ function Login(){
                 <TextField value={password === 0 ? '' : password} type="string" id="outlined-basic" label="Enter Password" variant="outlined" onChange={(e) =>{
                     setPassword(e.target.value)
                 }}/>
+                <h2>Confirm Password</h2>
+                <TextField value={confirmPassword === 0 ? '' : confirmPassword} type="string" id="outlined-basic" label="Re-Enter Password" variant="outlined" onChange={(e) =>{
+                    setConfirmPassword(e.target.value)
+                }}/>
                 
                 <Button variant='contained' size= 'large'
                     onClick={() => 
                     /*ToDo: fill in rerouting and verification */alert("click")}>
-                    Login
+                    Sign Up
                 </Button>
                 </Stack>
-                <p>Don't have an account? <a href='link'>Sign Up</a></p>
+                <p>Already have an account? <a href='link'>Log In</a></p>
             </Box>
         </Box>
     )
 }
 
-export default Login
+export default Signup
