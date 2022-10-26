@@ -6,8 +6,7 @@ import Signup from './components/Signup'
 function App() {
   return (
     <div className="App">
-      {/* <Projects></Projects> */}
-      <Signup></Signup>
+      <Projects></Projects>
     </div>
   )
 }

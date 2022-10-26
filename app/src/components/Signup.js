@@ -9,17 +9,18 @@ function Signup(){
     const [confirmPassword, setConfirmPassword] = useState('')
 
     return (
-        <div
-      style={{
+        <Box
+      sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
+        pt: 3,
+        pb: 3
       }}
     >
-            <Box sx={{border: 4, borderColor: 'blueviolet', p:5}}>
+            <Box sx={{border: 4, borderColor: 'blueviolet', p:5, pt:1}}>
             <Stack spacing={2}>
-                <h1>Login</h1>
+                <h1>Sign Up</h1>
                 <h2>Username</h2>
                 <TextField value={username === 0 ? '' : username} type="string" id="outlined-basic" label="Enter Username" variant="outlined" onChange={(e) =>{
                     setUsername(e.target.value)
@@ -34,7 +35,7 @@ function Signup(){
                 }}/>
                 <h2>Confirm Password</h2>
                 <TextField value={confirmPassword === 0 ? '' : confirmPassword} type="string" id="outlined-basic" label="Re-Enter Password" variant="outlined" onChange={(e) =>{
-                    setPassword(e.target.value)
+                    setConfirmPassword(e.target.value)
                 }}/>
                 
                 <Button variant='contained' size= 'large'
@@ -45,7 +46,7 @@ function Signup(){
                 </Stack>
                 <p>Already have an account? <a href='link'>Log In</a></p>
             </Box>
-        </div>
+        </Box>
     )
 }
 

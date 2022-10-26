@@ -8,15 +8,17 @@ function Login(){
     const [password, setPassword] = useState('')
 
     return (
-        <div
-      style={{
+        
+        <Box
+      sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
+        pt: 3,
+        pb: 3
       }}
     >
-            <Box sx={{border: 4, borderColor: 'blueviolet', p:5}}>
+            <Box sx={{border: 4, borderColor: 'blueviolet', p:5, pt:1}}>
             <Stack spacing={2}>
                 <h1>Login</h1>
                 <h2>Username</h2>
@@ -40,7 +42,7 @@ function Login(){
                 </Stack>
                 <p>Don't have an account? <a href='link'>Sign Up</a></p>
             </Box>
-        </div>
+        </Box>
     )
 }
 
