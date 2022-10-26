@@ -3,7 +3,6 @@ import { useState } from "react"
 
 function Login(){
 
-    const [username, setUsername] = useState('')
     const [userid, setUserID] = useState('')
     const [password, setPassword] = useState('')
 
@@ -21,10 +20,6 @@ function Login(){
             <Box sx={{border: 4, borderColor: 'blueviolet', p:5, pt:1}}>
             <Stack spacing={2}>
                 <h1>Login</h1>
-                <h2>Username</h2>
-                <TextField value={username === 0 ? '' : username} type="string" id="outlined-basic" label="Enter Username" variant="outlined" onChange={(e) =>{
-                    setUsername(e.target.value)
-                }}/>
                 <h2>User ID</h2>
                 <TextField value={userid === 0 ? '' : userid} type="string" id="outlined-basic" label="Enter User ID" variant="outlined" onChange={(e) =>{
                     setUserID(e.target.value)
