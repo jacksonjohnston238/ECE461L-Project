@@ -6,12 +6,8 @@ import Signup from './Signup'
 function LoginPage({setUser}) {
     const [loginOrSignup, setLoginOrSignup] = useState('Login')
 
-    // useEffect(() => {
-    //     console.log(loginOrSignup)
-    // }, [loginOrSignup])
-
     return (
-      <Box>
+      <Box sx={{ p: 10}}>
         {loginOrSignup === 'Login' ? 
             <Login toggleLoginOrSignup={setLoginOrSignup} setUser={setUser}></Login>
             :
