@@ -5,8 +5,8 @@ import { useState } from "react"
 
 function Project({name, hwsets, users, projectid}) {
     const [joined, setJoined] = useState(false)
-    // const url = 'http://localhost:5000/' // use for local development
-    const url = '/' // use for heroku deployment
+    const url = 'http://localhost:5000/' // use for local development
+    // const url = '/' // use for heroku deployment
 
     const joinProjectHandler = () => {
         setJoined(true)

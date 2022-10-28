@@ -1,7 +1,7 @@
-import { Stack, Box, TextField, Button } from "@mui/material"
+import { Stack, Box, TextField, Button, Link } from "@mui/material"
 import { useState } from "react"
 
-function Signup(){
+function Signup({toggleLoginOrSignup}){
 
     const [username, setUsername] = useState('')
     const [userid, setUserID] = useState('')
@@ -44,7 +44,7 @@ function Signup(){
                     Sign Up
                 </Button>
                 </Stack>
-                <p>Already have an account? <a href='link'>Log In</a></p>
+                <p>Already have an account? <Link onClick={() => toggleLoginOrSignup('Login')} sx={{cursor: 'pointer'}}>Log In</Link></p>
             </Box>
         </Box>
     )
