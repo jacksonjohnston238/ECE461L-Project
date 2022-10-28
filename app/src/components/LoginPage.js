@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import Login from './Login'
 import Signup from './Signup'
 
-function LoginPage() {
+function LoginPage({setUser}) {
     const [loginOrSignup, setLoginOrSignup] = useState('Login')
 
     // useEffect(() => {
@@ -13,9 +13,9 @@ function LoginPage() {
     return (
       <Box>
         {loginOrSignup === 'Login' ? 
-            <Login toggleLoginOrSignup={setLoginOrSignup}></Login>
+            <Login toggleLoginOrSignup={setLoginOrSignup} setUser={setUser}></Login>
             :
-            <Signup toggleLoginOrSignup={setLoginOrSignup}></Signup>
+            <Signup toggleLoginOrSignup={setLoginOrSignup} setUser={setUser}></Signup>
         }
       </Box>
     )

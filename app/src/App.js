@@ -11,7 +11,7 @@ function App() {
   return (
     <Box className="App">
       {user === '' ? 
-        <LoginPage></LoginPage>
+        <LoginPage setUser={setUser}></LoginPage>
         :
         <Projects></Projects>
       }
