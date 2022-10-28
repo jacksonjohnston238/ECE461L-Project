@@ -1,12 +1,19 @@
-import { Stack, Box, TextField, Button } from "@mui/material"
+import { Stack, Box, TextField, Button, Link } from "@mui/material"
 import { useState } from "react"
 
-function Signup(){
+function Signup({toggleLoginOrSignup, setUser}){
 
     const [username, setUsername] = useState('')
     const [userid, setUserID] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+
+    const handleSignup = () => {
+        // for testing, 'logs in the user'
+        alert('click')
+        setUser('test')
+        localStorage.setItem('user', 'test')
+    }
 
     return (
         <Box
@@ -39,12 +46,11 @@ function Signup(){
                 }}/>
                 
                 <Button variant='contained' size= 'large'
-                    onClick={() => 
-                    /*ToDo: fill in rerouting and verification */alert("click")}>
+                    onClick={handleSignup}>
                     Sign Up
                 </Button>
                 </Stack>
-                <p>Already have an account? <a href='link'>Log In</a></p>
+                <p>Already have an account? <Link onClick={() => toggleLoginOrSignup('Login')} sx={{cursor: 'pointer'}}>Log In</Link></p>
             </Box>
         </Box>
     )

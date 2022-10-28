@@ -1,13 +1,24 @@
 import './App.css'
 import Projects from './components/Projects'
-import Login from './components/Login'
-import Signup from './components/Signup'
+import LoginPage from './components/LoginPage'
+import { useState } from 'react'
+import { Box } from '@mui/system'
+import Header from './components/Header'
 
 function App() {
+  const [user, setUser] = useState(localStorage.getItem("user") || '')
+
+
   return (
-    <div className="App">
-      <Projects></Projects>
-    </div>
+    <Box className="App">
+      <Header user={user} setUser={setUser}></Header>
+      {user === '' ? 
+        <LoginPage setUser={setUser}></LoginPage>
+        :
+          
+          <Projects></Projects>
+      }
+    </Box>
   )
 }
 

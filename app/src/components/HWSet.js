@@ -4,8 +4,8 @@ import { useState } from "react"
 function HWSet({ name, capacity, availability, projectid }) {
     const [hwAvailability, setHwAvailability] = useState(availability)
     const [quantity, setQuantity] = useState(0)
-    // const url = 'http://localhost:5000/' // use for local development
-    const url = '/' // use for heroku deployment
+    const url = 'http://localhost:5000/' // use for local development
+    // const url = '/' // use for heroku deployment
 
 
     const checkInHandler = () => {
