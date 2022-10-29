@@ -7,12 +7,16 @@ function Signup({toggleLoginOrSignup, setUser}){
     const [userid, setUserID] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const url = 'http://localhost:5000/'
 
     const handleSignup = () => {
         // for testing, 'logs in the user'
         alert('click')
         setUser('test')
         localStorage.setItem('user', 'test')
+        fetch(`${url}signup/${username}/${userid}/${password}/${confirmPassword}`)
+            .then((response) => response.json())
+            .then((data) => alert(data.response))
     }
 
     return (

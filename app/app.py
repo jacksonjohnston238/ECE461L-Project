@@ -4,7 +4,10 @@ from flask_cors import CORS, cross_origin
 from pymongo import MongoClient
 client = MongoClient("mongodb+srv://ecedatabaseuser:wHHLGhPoC95vByvV@cluster0.gopiidc.mongodb.net/?retryWrites=true&w=majority")
 # Initializes the database to be the test database in the client in MongoDB
-database = client.ECE461L-FinalProject-Database
+database = client["ECE461L-FinalProject-Database"]
+users = database.Users
+hwsets = database.HardwareSets
+projects = database.Projects
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 
@@ -45,6 +48,24 @@ def leaveProject(projectid):
         'response' : f'Left {projectid}'
     }
 
+@app.route("/signup/<string:username>/<string:userID>/<string:password>/<string:confirmPassword>")
+def signup(username, userID, password, confirmPassword):
+    if password == confirmPassword:
+        newUserDoc = {
+            'Username' : username,
+            'UserID' : userID,
+            'Password' : password
+        }
+        users.insert_one(newUserDoc)
+        response = f'new user created'
+
+    else:
+        response = f'passwords must match'
+
+    return {
+        'response' : f'* {response} *'
+    }
+
 
 # Close the database collection
-client.close()
+
