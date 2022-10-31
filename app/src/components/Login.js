@@ -5,11 +5,16 @@ function Login({toggleLoginOrSignup, setUser}){
 
     const [userid, setUserID] = useState('')
     const [password, setPassword] = useState('')
+    const url = 'http://localhost:5000/' // use for local development
+    // const url = '/' // use for heroku deployment
 
     const handleLogin = () => {
         alert('click')
         setUser('test')
         localStorage.setItem('user', 'test')
+        fetch(`${url}login/${userid}/${password}`)
+            .then((response) => response.json())
+            .then((data) => alert(data.response))
     }
 
     return (
