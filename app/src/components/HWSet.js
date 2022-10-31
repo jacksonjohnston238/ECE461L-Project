@@ -17,7 +17,7 @@ function HWSet({ name, capacity, availability, projectid }) {
       }
       setQuantity(0)
 
-      fetch(`${url}checkin/${projectid}/${quantity}`)
+      fetch(`${url}checkin/${projectid}/${name}/${quantity}`)
         .then((response) => response.json())
         .then((data) => alert(data.response))
     }
@@ -33,7 +33,7 @@ function HWSet({ name, capacity, availability, projectid }) {
       }
       setQuantity(0)
 
-      fetch(`${url}checkout/${projectid}/${amountCheckedOut}`)
+      fetch(`${url}checkout/${projectid}/${name}/${amountCheckedOut}`)
         .then((response) => response.json())
         .then((data) => alert(data.response))
     }
