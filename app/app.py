@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS, cross_origin
 # from and import statements in order to access specific functions with these libraries
 from pymongo import MongoClient
+import json
 client = MongoClient("mongodb+srv://ecedatabaseuser:wHHLGhPoC95vByvV@cluster0.gopiidc.mongodb.net/?retryWrites=true&w=majority")
 # Initializes the database to be the test database in the client in MongoDB
 database = client["ECE461L-FinalProject-Database"]
@@ -17,6 +18,26 @@ CORS(app)
 @app.route("/")
 def index():
     return app.send_static_file('index.html')
+
+@app.route('/projects/<string:userID>')
+def getProjects(userID):
+    # Return projects userID is in
+    projectsList = []
+    for project in projects.find():
+        del project['_id']
+        if userID in project['Authorized Users']:
+            projectsList.append(project)
+
+    # Return list of hwsets
+    hwsetsList = []
+    for hwset in hwsets.find():
+        del hwset['_id']
+        hwsetsList.append(hwset)
+
+    return {
+        'projects' : projectsList,
+        'hwsets' : hwsetsList
+    }
 
 
 @app.route('/checkin/<int:projectid>/<string:hwsetname>/<int:qty>')
