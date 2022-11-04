@@ -9,8 +9,10 @@ function Login({toggleLoginOrSignup, setUser}){
     // const url = '/' // use for heroku deployment
 
     const handleLogin = () => {
-        if (userid === '' || password === '') {
-            alert('Please enter valid userid and password')
+        if (userid === '') {
+            alert('Please enter valid User ID')
+        } else if (password === '') {
+            alert('Please enter valid Password')
         } else {
             fetch(`${url}login/${userid}/${password}`)
             .then((response) => response.json())

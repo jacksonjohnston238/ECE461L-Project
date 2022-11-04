@@ -10,13 +10,26 @@ function Signup({toggleLoginOrSignup, setUser}){
     const url = 'http://localhost:5000/'
 
     const handleSignup = () => {
-        // for testing, 'logs in the user'
-        alert('click')
-        setUser('test')
-        localStorage.setItem('user', 'test')
-        fetch(`${url}signup/${username}/${userid}/${password}/${confirmPassword}`)
+        if (username === '') {
+            alert('Please enter valid Username')
+        } else if (userid === '') {
+            alert('Please enter valid User ID')
+        } else if (password === '') {
+            alert('Please enter valid Password')
+        } else if (confirmPassword === '') {
+            alert('Please confirm Password')
+        }
+        else {
+            fetch(`${url}signup/${username}/${userid}/${password}/${confirmPassword}`)
             .then((response) => response.json())
-            .then((data) => alert(data.response))
+            .then((data) => {
+                if (data.response === 'new user created') {
+                    setUser(data.userID)
+                    localStorage.setItem('user', data.userID)
+                }
+                alert(data.response)
+            })
+        }
     }
 
     return (

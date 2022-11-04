@@ -114,14 +114,16 @@ def signup(username, userID, password, confirmPassword):
             'UserID': userID,
             'Password': password
         }
-        users.insert_one(newUserDoc)
-        response = f'new user created'
-
+        if users.find_one({"UserID": userID}) != None:
+            response = 'account with that userID already exists'
+        else:
+            users.insert_one(newUserDoc)
+            response = 'new user created'
     else:
-        response = f'passwords must match'
-
+        response = 'passwords must match'
     return {
-        'response': f'* {response} *'
+        'response': response,
+        'userID': userID
     }
 
 
