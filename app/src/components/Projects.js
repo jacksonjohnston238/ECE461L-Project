@@ -1,8 +1,40 @@
 import Project from "./Project"
 import { Stack, Box } from "@mui/system"
 import ProjectMenu from "./ProjectMenu"
+import { useEffect, useState } from 'react'
 
-function Projects() {
+function Projects({user}) {
+  const url = 'http://localhost:5000/' // use for local development
+    // const url = '/' // use for heroku deployment
+  const [projects, setProjects] = useState([])
+  const [hwsets, setHwsets] = useState([])
+
+  useEffect(() => {
+    fetch(`${url}projects/${user}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setProjects(data.projects)
+        setHwsets(data.hwsets)
+      })
+  }, [])
+
+  if (projects === []) {
+    return <Box></Box>
+  }
+
+  const renderedProjects = projects.map((project) => {
+    return (
+      <Project 
+        key={project.ProjectID}
+        projectid={project.ProjectID} 
+        name={project.ProjectName} 
+        users={project['Authorized Users']} 
+        hwsets={hwsets}
+        userInProject={project.Users.includes(user) ? true : false}>
+      </Project>
+    )
+  })
+
   return (
     <Box sx={{ p: 10}}>
       <Stack spacing={5}>
@@ -10,9 +42,7 @@ function Projects() {
         <Stack sx={{ border: 1, borderColor: 'black', p: 5 }} spacing={2}>
             <Box sx={{ fontWeight: 500 }}>Projects</Box>
             <Stack spacing={2}>
-                <Project name={'Project 1'} projectid={1} users={'bmw3555, abc1234'} hwsets={['HWSet1', 'HWSet2']}></Project>
-                <Project name={'Project 2'} projectid={2} users={'xyz5678, hlm5005'} hwsets={['MyHWSet', 'HWSet3']}></Project>
-                <Project name={'Project 3'} projectid={3} users={'bmw3555, tre2280'} hwsets={['HWSetA', 'HWSetB']}></Project>
+              {renderedProjects}
             </Stack>
         </Stack>
       </Stack>

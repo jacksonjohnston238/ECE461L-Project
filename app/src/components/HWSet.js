@@ -1,7 +1,7 @@
 import { TextField, Button, Stack, Box } from "@mui/material"
 import { useState } from "react"
 
-function HWSet({ name, capacity, availability, projectid }) {
+function HWSet({ name, capacity, availability, projectid, joined, projectName }) {
     const [hwAvailability, setHwAvailability] = useState(availability)
     const [quantity, setQuantity] = useState(0)
     const url = 'http://localhost:5000/' // use for local development
@@ -9,33 +9,45 @@ function HWSet({ name, capacity, availability, projectid }) {
 
 
     const checkInHandler = () => {
-      const newAvailiability = Number(hwAvailability) + Number(quantity)
-      if (newAvailiability > capacity) {
-        setHwAvailability(capacity)
+      if (!joined) {
+        alert(`You must join ${projectName} to check in hardware`)
       } else {
-        setHwAvailability(newAvailiability)
-      }
-      setQuantity(0)
 
-      fetch(`${url}checkin/${projectid}/${name}/${quantity}`)
-        .then((response) => response.json())
-        .then((data) => alert(data.response))
+        const newAvailiability = Number(hwAvailability) + Number(quantity)
+        if (newAvailiability > capacity) {
+          setHwAvailability(capacity)
+        } else {
+          setHwAvailability(newAvailiability)
+        }
+        setQuantity(0)
+        
+        // send qty update to backend
+        fetch(`${url}checkin/${projectid}/${name}/${quantity}`)
+          .then((response) => response.json())
+          .then((data) => alert(data.response))
+
+      }
     }
 
     const checkOutHandler = () => {
-      var amountCheckedOut
-      if (quantity > hwAvailability) {
-        amountCheckedOut = hwAvailability
-        setHwAvailability(0)
+      if (!joined) {
+        alert(`You must join ${projectName} to check out hardware`)
       } else {
-        setHwAvailability(hwAvailability - quantity)
-        amountCheckedOut = quantity
+        var amountCheckedOut
+        if (quantity > hwAvailability) {
+          amountCheckedOut = hwAvailability
+          setHwAvailability(0)
+        } else {
+          setHwAvailability(hwAvailability - quantity)
+          amountCheckedOut = quantity
+        }
+        setQuantity(0)
+  
+        fetch(`${url}checkout/${projectid}/${name}/${amountCheckedOut}`)
+          .then((response) => response.json())
+          .then((data) => alert(data.response))
       }
-      setQuantity(0)
-
-      fetch(`${url}checkout/${projectid}/${name}/${amountCheckedOut}`)
-        .then((response) => response.json())
-        .then((data) => alert(data.response))
+      
     }
 
     return (
