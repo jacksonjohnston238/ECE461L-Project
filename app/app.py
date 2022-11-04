@@ -129,14 +129,19 @@ def signup(username, userID, password, confirmPassword):
 def login(userID, password):
     user_query = {"UserID": userID}
     user_document = users.find_one(user_query)
+    if user_document == None:
+        return {
+            'response' : 'userID not found'
+        }
     passwordCheck = user_document["Password"]
     if password == passwordCheck:
-        response = f'successfully logged in'
+        response = 'successfully logged in'
 
     else:
-        response = f'incorrect password'
+        response = 'incorrect password'
     return {
-        'response': f'* {response} *'
+        'response': response,
+        'userID': userID
     }
 
 
