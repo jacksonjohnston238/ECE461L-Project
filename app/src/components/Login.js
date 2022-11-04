@@ -9,12 +9,21 @@ function Login({toggleLoginOrSignup, setUser}){
     // const url = '/' // use for heroku deployment
 
     const handleLogin = () => {
-        alert('click')
-        setUser('test')
-        localStorage.setItem('user', 'test')
-        fetch(`${url}login/${userid}/${password}`)
+        if (userid === '') {
+            alert('Please enter valid User ID')
+        } else if (password === '') {
+            alert('Please enter valid Password')
+        } else {
+            fetch(`${url}login/${userid}/${password}`)
             .then((response) => response.json())
-            .then((data) => alert(data.response))
+            .then((data) => {
+                if (data.response === 'successfully logged in') {
+                    setUser(data.userID)
+                    localStorage.setItem('user', data.userID)
+                }
+                alert(data.response)
+            })
+        }
     }
 
     return (
