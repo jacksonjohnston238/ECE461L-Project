@@ -3,8 +3,8 @@ import { Stack, Box } from "@mui/system"
 import HWSet from "./HWSet"
 import { useState } from "react"
 
-function Project({name, hwsets, users, projectid}) {
-    const [joined, setJoined] = useState(false)
+function Project({name, hwsets, users, projectid, userInProject}) {
+    const [joined, setJoined] = useState(userInProject)
     const url = 'http://localhost:5000/' // use for local development
     // const url = '/' // use for heroku deployment
 
@@ -22,13 +22,22 @@ function Project({name, hwsets, users, projectid}) {
             .then((data) => alert(data.response))
     }
 
+    const renderedHWSets = hwsets.map((hwset) => {
+        return (
+            <HWSet key={hwset.Name} name={hwset.Name} availability={hwset.Availability} capacity={hwset.Capacity} projectid={projectid} projectName={name} joined={joined}/>
+        )
+    })
+
+    const renderedUsers = users.map((user) => {
+        return user + ' '
+    })
+
     return (
         <Stack direction='row' spacing={2} sx={{ border: 1, borderColor: 'lightblue', p: 2}}>
             <Box sx={{ fontWeight: 500, width: 100 }}>{name}</Box>
-            <Box sx={{ fontWeight: 300, width: 200 }}>{users}</Box>
+            <Box sx={{ fontWeight: 300, width: 200 }}>{renderedUsers}</Box>
             <Stack spacing={2}>
-                <HWSet name={hwsets[0]} availability={50} capacity={100} projectid={projectid} />
-                <HWSet name={hwsets[1]} availability={10} capacity={100} projectid={projectid} />
+                {renderedHWSets}
             </Stack>
             {!joined ? 
                 <Button variant='contained' onClick={joinProjectHandler}>Join Project</Button> 
