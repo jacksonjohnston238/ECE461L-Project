@@ -146,6 +146,27 @@ def login(userID, password):
         'userID': userID
     }
 
+## Create a project
+@app.route("/createproject/<string:projectName>/<string:description>/<string:projectID>/<string:authorizedUsers>")
+def createProject(projectName, description, projectID, authorizedUsers):
+    authorizedUserArray = authorizedUsers.split(',')
+    project_document = {
+        'ProjectID': projectID,
+        'ProjectName': projectName,
+        'Users': [],
+        'Project Description': description,
+        'HWSets': {'HWSet1': 0, 'HWSet2': 0},
+        'Authorized Users': authorizedUserArray
+    }
+    if projects.find_one({"ProjectID": projectID}) != None:
+            response = 'project with that ProjectID already exists'
+    else:
+        projects.insert_one(project_document)
+        response = 'new project created'
+
+    return {
+        'response': response
+    }
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

@@ -6,10 +6,16 @@ function ProjectMenu(){
     const [description, setDescription] = useState('')
     const [projectID, setProjectID] = useState('')
     const [authorizedUsers, setAuthorizedUsers] = useState('')
+    const url = 'http://localhost:5000/'
 
     const handleProjectCreate = () => {
+      fetch(`${url}createproject/${projectName}/${description}/${projectID}/${authorizedUsers}`)
+      .then((response) => response.json())
+            .then((data) => {
+                alert(data.response)
+            })
     }
-
+    
     return(
     <Box>
         <Stack sx={{ border: 1, borderColor: 'black', p: 5 }} spacing={2}>
@@ -36,7 +42,7 @@ function ProjectMenu(){
            </Box>
            <Box sx={{ fontWeight: 500 }}>
             Authorized Users
-            <TextField value={authorizedUsers === 0 ? '' : authorizedUsers} type="string" id="outlined-basic" label="Ex: userid1, userid2, ..." variant="filled" onChange={(e) =>{
+            <TextField value={authorizedUsers === 0 ? '' : authorizedUsers} type="string" id="outlined-basic" label="Ex: userid1,userid2,..." variant="filled" onChange={(e) =>{
                 setAuthorizedUsers(e.target.value)
             }}/>
            </Box>
@@ -47,6 +53,7 @@ function ProjectMenu(){
                 </Button>
       </Stack>
     </Box>
+    
     )
 }
 
