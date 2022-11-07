@@ -2,12 +2,16 @@ import Project from "./Project"
 import { Stack, Box } from "@mui/system"
 import ProjectMenu from "./ProjectMenu"
 import { useEffect, useState } from 'react'
+import { InputLabel } from '@mui/material'
+import Select from "react-select"
+import { jsx } from "@emotion/react"
 
 function Projects({user}) {
   const url = 'http://localhost:5000/' // use for local development
     // const url = '/' // use for heroku deployment
   const [projects, setProjects] = useState([])
   const [hwsets, setHwsets] = useState([])
+  const [selectedProject, setSelectedProject] = useState([])
 
   useEffect(() => {
     fetch(`${url}projects/${user}`)
@@ -16,6 +20,7 @@ function Projects({user}) {
         setProjects(data.projects)
         setHwsets(data.hwsets)
       })
+      setSelectedProject(renderedProjects[0])
   }, [])
 
   if (projects === []) {
@@ -36,9 +41,9 @@ function Projects({user}) {
   })
 
   const authorizedProjects = projects.map((project, index) => {
-    const option = [{
-    label: project.ProjectName, value: index
-    }]
+    var option = {
+    label: project.ProjectName + " (" + project.ProjectID + ")", value: index
+    }
     return option;
   })
 
@@ -46,11 +51,14 @@ function Projects({user}) {
     <Box sx={{ p: 10}}>
       <Stack spacing={5}>
         <ProjectMenu></ProjectMenu>
-        
         <Stack sx={{ border: 1, borderColor: 'black', p: 5 }} spacing={2}>
+        <InputLabel id="project-select">Selected Projects</InputLabel>
+            <Select labelId="project-select" options={authorizedProjects} placeholder={'Project Name (ProjectID)'} onChange={(choice) =>{
+                setSelectedProject(renderedProjects[choice.value])
+            }}/>
             <Box sx={{ fontWeight: 500 }}>Projects</Box>
             <Stack spacing={2}>
-              {renderedProjects}
+              {selectedProject}
             </Stack>
         </Stack>
       </Stack>
