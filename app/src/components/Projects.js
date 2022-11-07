@@ -38,12 +38,14 @@ function Projects({user}) {
     )
   })
 
-  const authorizedProjects = projects.map((project, index) => {
+  var authorizedProjects = projects.map((project, index) => {
     var option = {
     label: project.ProjectName + " (" + project.ProjectID + ")", value: index
     }
     return option;
   })
+
+  authorizedProjects.unshift({label: "Display all Projects", value: null})
 
   return (
     <Box sx={{ p: 10}}>
@@ -52,7 +54,11 @@ function Projects({user}) {
         <Stack sx={{ border: 1, borderColor: 'black', p: 5 }} spacing={2}>
             <Box sx={{ fontWeight: 500 }}>Projects</Box>
             <Select options={authorizedProjects} placeholder={'Project Name (ProjectID)'} onChange={(choice) =>{
-                setSelectedProject(renderedProjects[choice.value])
+                if(choice.value == null){
+                  setSelectedProject(renderedProjects)
+                }else{
+                  setSelectedProject(renderedProjects[choice.value])
+                }
             }}/>
             <Stack spacing={2}>
               {selectedProject}
