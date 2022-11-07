@@ -52,11 +52,10 @@ function Projects({user}) {
       <Stack spacing={5}>
         <ProjectMenu></ProjectMenu>
         <Stack sx={{ border: 1, borderColor: 'black', p: 5 }} spacing={2}>
-        <InputLabel id="project-select">Selected Projects</InputLabel>
-            <Select labelId="project-select" options={authorizedProjects} placeholder={'Project Name (ProjectID)'} onChange={(choice) =>{
+            <Box sx={{ fontWeight: 500 }}>Projects</Box>
+            <Select options={authorizedProjects} placeholder={'Project Name (ProjectID)'} onChange={(choice) =>{
                 setSelectedProject(renderedProjects[choice.value])
             }}/>
-            <Box sx={{ fontWeight: 500 }}>Projects</Box>
             <Stack spacing={2}>
               {selectedProject}
             </Stack>
