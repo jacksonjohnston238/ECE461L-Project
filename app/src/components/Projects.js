@@ -35,10 +35,18 @@ function Projects({user}) {
     )
   })
 
+  const authorizedProjects = projects.map((project, index) => {
+    const option = [{
+    label: project.ProjectName, value: index
+    }]
+    return option;
+  })
+
   return (
     <Box sx={{ p: 10}}>
       <Stack spacing={5}>
         <ProjectMenu></ProjectMenu>
+        
         <Stack sx={{ border: 1, borderColor: 'black', p: 5 }} spacing={2}>
             <Box sx={{ fontWeight: 500 }}>Projects</Box>
             <Stack spacing={2}>
