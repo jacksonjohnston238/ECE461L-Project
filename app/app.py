@@ -118,15 +118,27 @@ def checkOut_hardware(projectid, hwsetname, qty):
     }
 
 
-@app.route('/join/<int:projectid>')
-def joinProject(projectid):
+@app.route('/join/<int:projectid>/<string:userid>')
+def joinProject(projectid, userid):
+    project = projects.find_one({"ProjectID": projectid})
+    users = project['Users']
+    users.append(userid)
+
+    projects.update_one({"ProjectID": projectid}, {"$set": {"Users": users}})
+
     return {
         'response': f'Joined {projectid}'
     }
 
 
-@app.route('/leave/<int:projectid>')
-def leaveProject(projectid):
+@app.route('/leave/<int:projectid>/<string:userid>')
+def leaveProject(projectid, userid):
+    project = projects.find_one({"ProjectID": projectid})
+    users = project['Users']
+    users.remove(userid)
+
+    projects.update_one({"ProjectID": projectid}, {"$set": {"Users": users}})
+
     return {
         'response': f'Left {projectid}'
     }

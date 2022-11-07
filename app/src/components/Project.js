@@ -4,21 +4,30 @@ import HWSet from "./HWSet"
 import { useState } from "react"
 
 function Project({name, hwsets, users, projectid, userInProject}) {
+    const user = localStorage.getItem('user')
     const [joined, setJoined] = useState(userInProject)
     const url = process.env.REACT_APP_BASE_URL
 
     const joinProjectHandler = () => {
-        setJoined(true)
-        fetch(`${url}join/${projectid}`)
+        fetch(`${url}join/${projectid}/${user}`)
             .then((response) => response.json())
-            .then((data) => alert(data.response))
+            .then((data) => {
+                if (data.response === `Joined ${projectid}`) {
+                    setJoined(true)
+                }
+            alert(data.response)
+            })
     }
 
     const leaveProjectHandler = () => {
-        setJoined(false)
-        fetch(`${url}leave/${projectid}`)
+        fetch(`${url}leave/${projectid}/${user}`)
             .then((response) => response.json())
-            .then((data) => alert(data.response))
+            .then((data) => {
+                if (data.response === `Left ${projectid}`) {
+                    setJoined(false)
+                }
+            alert(data.response)
+            })
     }
 
     const renderedHWSets = hwsets.map((hwset) => {
