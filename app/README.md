@@ -1,7 +1,7 @@
 # Getting Started
 
 ## Local Development
-- Update API calls in React to use the https://localhost:5000/ base url
+- Navigate to /app
 - Activate venv `. venv/bin/activate` 
 - Install python dependencies `pip install -r requirements.txt`
 - Start the flask server `flask --app app run`
@@ -9,9 +9,8 @@
 - Start the react server `npm start`
 
 ## Deployment
-- Update API calls in React to use the '/' url
-- Build the react app `npm run build`
 - Navigate to /app
+- Build the react app `npm run build`
 - Add new files to heroku 
 ```
     heroku login

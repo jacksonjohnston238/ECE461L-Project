@@ -7,7 +7,7 @@ function Signup({toggleLoginOrSignup, setUser}){
     const [userid, setUserID] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const url = 'http://localhost:5000/'
+    const url = process.env.REACT_APP_BASE_URL
 
     const handleSignup = () => {
         if (username === '') {

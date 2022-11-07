@@ -4,8 +4,7 @@ import ProjectMenu from "./ProjectMenu"
 import { useEffect, useState } from 'react'
 
 function Projects({user}) {
-  const url = 'http://localhost:5000/' // use for local development
-    // const url = '/' // use for heroku deployment
+  const url = process.env.REACT_APP_BASE_URL 
   const [projects, setProjects] = useState([])
   const [hwsets, setHwsets] = useState([])
 

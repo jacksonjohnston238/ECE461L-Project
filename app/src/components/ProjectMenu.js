@@ -6,7 +6,7 @@ function ProjectMenu(){
     const [description, setDescription] = useState('')
     const [projectID, setProjectID] = useState('')
     const [authorizedUsers, setAuthorizedUsers] = useState('')
-    const url = 'http://localhost:5000/'
+    const url = process.env.REACT_APP_BASE_URL
 
     const handleProjectCreate = () => {
       fetch(`${url}createproject/${projectName}/${description}/${projectID}/${authorizedUsers}`)
