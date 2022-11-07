@@ -13,7 +13,8 @@ function ProjectMenu(){
       .then((response) => response.json())
             .then((data) => {
                 alert(data.response)
-            })
+            }).then(window.location.reload())
+      
     }
     
     return(
