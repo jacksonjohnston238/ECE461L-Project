@@ -44,7 +44,7 @@ def getProjects(userID):
     }
 
 
-@app.route('/checkin/<int:projectid>/<string:hwsetname>/<int:qty>')
+@app.route('/checkin/<string:projectid>/<string:hwsetname>/<int:qty>')
 def checkIn_hardware(projectid, hwsetname, qty):
 
     hwset_query = {"Name": hwsetname}
@@ -72,7 +72,7 @@ def checkIn_hardware(projectid, hwsetname, qty):
     }
 
 
-@app.route('/checkout/<int:projectid>/<string:hwsetname>/<int:qty>')
+@app.route('/checkout/<string:projectid>/<string:hwsetname>/<int:qty>')
 def checkOut_hardware(projectid, hwsetname, qty):
 
     hwset_query = {"Name": hwsetname}
@@ -100,7 +100,7 @@ def checkOut_hardware(projectid, hwsetname, qty):
     }
 
 
-@app.route('/join/<int:projectid>/<string:userid>')
+@app.route('/join/<string:projectid>/<string:userid>')
 def joinProject(projectid, userid):
     project = projects.find_one({"ProjectID": projectid})
     users = project['Users']
@@ -113,7 +113,7 @@ def joinProject(projectid, userid):
     }
 
 
-@app.route('/leave/<int:projectid>/<string:userid>')
+@app.route('/leave/<string:projectid>/<string:userid>')
 def leaveProject(projectid, userid):
     project = projects.find_one({"ProjectID": projectid})
     users = project['Users']
