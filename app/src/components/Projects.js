@@ -2,9 +2,7 @@ import Project from "./Project"
 import { Stack, Box } from "@mui/system"
 import ProjectMenu from "./ProjectMenu"
 import { useEffect, useState } from 'react'
-import { InputLabel } from '@mui/material'
 import Select from "react-select"
-import { jsx } from "@emotion/react"
 
 function Projects({user}) {
   const url = 'http://localhost:5000/' // use for local development
