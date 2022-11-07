@@ -46,87 +46,81 @@ def getProjects(userID):
 
 @app.route('/checkin/<int:projectid>/<string:hwsetname>/<int:qty>')
 def checkIn_hardware(projectid, hwsetname, qty):
-    # project_query = {"ProjectID": projectid}
-    # project_document = projects.find_one(project_query)
-    # valid_hwset = False
-    # for index in project_document["HWSets"]:
-    #     if index == hwsetname:
-    #         valid_hwset = True
-    # if valid_hwset:
-    #     hwset_query = {"Name": hwsetname}
-    #     hwset_document = hwsets.find_one(hwset_query)
-    #     available_units = hwset_document["Availability"]
-    #     capacity_units = hwset_document["Capacity"]
-    #     remaining_units = capacity_units - available_units
-    #     if qty > remaining_units:
-    #         hwsets.update_one({"Name": hwsetname}, {"$set": {"Availability": capacity_units}})
-    #     else:
-    #         final_qty = available_units + qty
-    #         hwsets.update_one({"Name": hwsetname}, {"$set": {"Availability": final_qty}})
 
     hwset_query = {"Name": hwsetname}
     hwset_document = hwsets.find_one(hwset_query)
     available_units = hwset_document["Availability"]
-    capacity_units = hwset_document["Capacity"]
-    remaining_units = capacity_units - available_units
-    if qty > remaining_units:
-        hwsets.update_one({"Name": hwsetname}, {"$set": {"Availability": capacity_units}})
+
+    project = projects.find_one({"ProjectID": projectid})
+    project_hardware = project['HWSets']
+    checked_out = project_hardware[hwsetname]
+
+    if qty > checked_out:
+        qty_checked_in = checked_out
     else:
-        final_qty = available_units + qty
-        hwsets.update_one({"Name": hwsetname}, {"$set": {"Availability": final_qty}})
+        qty_checked_in = qty
+
+    project_hardware[hwsetname] = project_hardware[hwsetname] - qty_checked_in
+    projects.update_one({"ProjectID": projectid}, {"$set": {"HWSets": project_hardware}})
+    hwsets.update_one({"Name": hwsetname}, {"$set": {"Availability": qty_checked_in + available_units}})
 
     return {
         'projectid': projectid,
         'hwsetname': hwsetname,
         'qty': qty,
-        'response': f'{qty} hardware checked into {hwsetname}'
+        'response': f'{qty_checked_in} hardware checked into {hwsetname}'
     }
 
 
 @app.route('/checkout/<int:projectid>/<string:hwsetname>/<int:qty>')
 def checkOut_hardware(projectid, hwsetname, qty):
-    # project_query = {"ProjectID": projectid}
-    # project_document = projects.find_one(project_query)
-    # valid_hwset = False
-    # for index in project_document["HWSets"]:
-    #     if index == hwsetname:
-    #         valid_hwset = True
-    # if valid_hwset:
-    #     hwset_query = {"Name": hwsetname}
-    #     hwset_document = hwsets.find_one(hwset_query)
-    #     init_qty = hwset_document["Availability"]
-    #     if qty > init_qty:
-    #         hwsets.update_one({"Name": hwsetname}, {"$set": {"Availability": 0}})
-    #     else:
-    #         final_qty = init_qty - qty
-    #         hwsets.update_one({"Name": hwsetname}, {"$set": {"Availability": final_qty}})
 
     hwset_query = {"Name": hwsetname}
     hwset_document = hwsets.find_one(hwset_query)
-    init_qty = hwset_document["Availability"]
-    if qty > init_qty:
+    availability = hwset_document["Availability"]
+
+    project = projects.find_one({"ProjectID": projectid})
+    project_hardware = project['HWSets']
+
+    if qty > availability:
+        qty_checked_out = availability
         hwsets.update_one({"Name": hwsetname}, {"$set": {"Availability": 0}})
     else:
-        final_qty = init_qty - qty
-        hwsets.update_one({"Name": hwsetname}, {"$set": {"Availability": final_qty}})
+        qty_checked_out = qty
+
+    project_hardware[hwsetname] = project_hardware[hwsetname] + qty_checked_out
+    projects.update_one({"ProjectID": projectid}, {"$set": {"HWSets": project_hardware}})
+    hwsets.update_one({"Name": hwsetname}, {"$set": {"Availability": availability - qty_checked_out}})
 
     return {
         'projectid': projectid,
         'hwsetname': hwsetname,
         'qty': qty,
-        'response': f'{qty} hardware checked out from {hwsetname}'
+        'response': f'{qty_checked_out} hardware checked out from {hwsetname}'
     }
 
 
-@app.route('/join/<int:projectid>')
-def joinProject(projectid):
+@app.route('/join/<int:projectid>/<string:userid>')
+def joinProject(projectid, userid):
+    project = projects.find_one({"ProjectID": projectid})
+    users = project['Users']
+    users.append(userid)
+
+    projects.update_one({"ProjectID": projectid}, {"$set": {"Users": users}})
+
     return {
         'response': f'Joined {projectid}'
     }
 
 
-@app.route('/leave/<int:projectid>')
-def leaveProject(projectid):
+@app.route('/leave/<int:projectid>/<string:userid>')
+def leaveProject(projectid, userid):
+    project = projects.find_one({"ProjectID": projectid})
+    users = project['Users']
+    users.remove(userid)
+
+    projects.update_one({"ProjectID": projectid}, {"$set": {"Users": users}})
+
     return {
         'response': f'Left {projectid}'
     }

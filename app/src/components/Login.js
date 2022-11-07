@@ -5,8 +5,7 @@ function Login({toggleLoginOrSignup, setUser}){
 
     const [userid, setUserID] = useState('')
     const [password, setPassword] = useState('')
-    const url = 'http://localhost:5000/' // use for local development
-    // const url = '/' // use for heroku deployment
+    const url = process.env.REACT_APP_BASE_URL 
 
     const handleLogin = () => {
         if (userid === '') {
