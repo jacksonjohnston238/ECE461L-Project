@@ -8,6 +8,7 @@ function Projects() {
   const url = process.env.REACT_APP_BASE_URL 
   const user = localStorage.getItem("user")
   const [projects, setProjects] = useState([])
+  const [updateProjects, setUpdateProjects] = useState(false)
   const [hwsets, setHwsets] = useState([])
   const [selection, setSelection] = useState(JSON.parse(localStorage.getItem('project-selection')) === null ? null : localStorage.getItem('project-selection'))
 
@@ -18,9 +19,7 @@ function Projects() {
         setProjects(data.projects)
         setHwsets(data.hwsets)
       })
-      
-  }, [])
-
+  }, [updateProjects])
   
 
   const renderedProjects = projects.map((project) => {
@@ -29,6 +28,8 @@ function Projects() {
         key={project.ProjectID}
         project={project}
         hwsets={hwsets}
+        setUpdateProjects={setUpdateProjects}
+        updateProjects={updateProjects}
         >
       </Project>
     )

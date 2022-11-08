@@ -3,7 +3,7 @@ import { Stack, Box } from "@mui/system"
 import HWSet from "./HWSet"
 import { useState } from "react"
 
-function Project({hwsets, project}) {
+function Project({hwsets, project, setUpdateProjects, updateProjects}) {
     const user = localStorage.getItem('user')
     const [joined, setJoined] = useState(project.Users.includes(user) ? true : false)
     const projectid = project.ProjectID
@@ -34,7 +34,13 @@ function Project({hwsets, project}) {
 
     const renderedHWSets = hwsets.map((hwset) => {
         return (
-            <HWSet key={hwset.Name} hwset={hwset} project={project} joined={joined}/>
+            <HWSet 
+                key={hwset.Name} 
+                hwset={hwset} 
+                project={project} 
+                joined={joined} 
+                setUpdateProjects={setUpdateProjects} 
+                updateProjects={updateProjects} />
         )
     })
 

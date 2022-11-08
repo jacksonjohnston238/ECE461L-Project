@@ -1,35 +1,27 @@
 import { TextField, Button, Stack, Box } from "@mui/material"
 import { useState } from "react"
 
-function HWSet({hwset, project, joined}) {
+function HWSet({hwset, project, joined, setUpdateProjects, updateProjects}) {
     const hwsetName = hwset.Name
     const capacity = hwset.Capacity
     const availability = hwset.Availability
     const projectid = project.ProjectID
     const projectName = project.ProjectName
-    const [hwAvailability, setHwAvailability] = useState(availability)
     const [quantity, setQuantity] = useState(0)
     const url = process.env.REACT_APP_BASE_URL 
-
 
     const checkInHandler = () => {
       if (!joined) {
         alert(`You must join ${projectName} to check in hardware`)
       } else {
-
-        const newAvailiability = Number(hwAvailability) + Number(quantity)
-        if (newAvailiability > capacity) {
-          setHwAvailability(capacity)
-        } else {
-          setHwAvailability(newAvailiability)
-        }
-        setQuantity(0)
-        
         // send qty update to backend
         fetch(`${url}checkin/${projectid}/${hwsetName}/${quantity}`)
           .then((response) => response.json())
-          .then((data) => alert(data.response))
-
+          .then((data) => {
+            alert(data.response)
+            setUpdateProjects(!updateProjects)
+          })
+        setQuantity(0)
       }
     }
 
@@ -37,26 +29,19 @@ function HWSet({hwset, project, joined}) {
       if (!joined) {
         alert(`You must join ${projectName} to check out hardware`)
       } else {
-        var amountCheckedOut
-        if (quantity > hwAvailability) {
-          amountCheckedOut = hwAvailability
-          setHwAvailability(0)
-        } else {
-          setHwAvailability(hwAvailability - quantity)
-          amountCheckedOut = quantity
-        }
-        setQuantity(0)
-  
-        fetch(`${url}checkout/${projectid}/${hwsetName}/${amountCheckedOut}`)
+        fetch(`${url}checkout/${projectid}/${hwsetName}/${quantity}`)
           .then((response) => response.json())
-          .then((data) => alert(data.response))
+          .then((data) => {
+            alert(data.response)
+            setUpdateProjects(!updateProjects)
+          })
+        setQuantity(0)
       }
-      
     }
 
     return (
         <Stack direction='row' spacing={2}>
-          <Box sx={{ width: 150 }}>{hwsetName}: {hwAvailability}/{capacity}</Box>
+          <Box sx={{ width: 150 }}>{hwsetName}: {availability}/{capacity}</Box>
           <TextField value={quantity === 0 ? '' : quantity} type="number" id="outlined-basic" helperText="Enter Quantity" variant="outlined" onChange={(e) => {
             if (e.target.value < 0) { 
               e.target.value = 0
