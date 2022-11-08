@@ -6,6 +6,7 @@ function Header({user, setUser}) {
         alert('logged out')
         setUser('')
         localStorage.setItem('user', '')
+        localStorage.setItem('project-selction', null)
     }
   
     return (
