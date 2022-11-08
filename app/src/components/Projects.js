@@ -4,8 +4,9 @@ import ProjectMenu from "./ProjectMenu"
 import { useEffect, useState } from 'react'
 import Select from "react-select"
 
-function Projects({user}) {
+function Projects() {
   const url = process.env.REACT_APP_BASE_URL 
+  const user = localStorage.getItem("user")
   const [projects, setProjects] = useState([])
   const [hwsets, setHwsets] = useState([])
   const [selection, setSelection] = useState(JSON.parse(localStorage.getItem('project-selection')) === null ? null : localStorage.getItem('project-selection'))
@@ -26,11 +27,9 @@ function Projects({user}) {
     return (
       <Project 
         key={project.ProjectID}
-        projectid={project.ProjectID} 
-        name={project.ProjectName} 
-        users={project['Authorized Users']} 
+        project={project}
         hwsets={hwsets}
-        userInProject={project.Users.includes(user) ? true : false}>
+        >
       </Project>
     )
   })

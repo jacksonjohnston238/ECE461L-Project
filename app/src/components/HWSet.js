@@ -1,7 +1,12 @@
 import { TextField, Button, Stack, Box } from "@mui/material"
 import { useState } from "react"
 
-function HWSet({ name, capacity, availability, projectid, joined, projectName }) {
+function HWSet({hwset, project, joined}) {
+    const hwsetName = hwset.Name
+    const capacity = hwset.Capacity
+    const availability = hwset.Availability
+    const projectid = project.ProjectID
+    const projectName = project.ProjectName
     const [hwAvailability, setHwAvailability] = useState(availability)
     const [quantity, setQuantity] = useState(0)
     const url = process.env.REACT_APP_BASE_URL 
@@ -21,7 +26,7 @@ function HWSet({ name, capacity, availability, projectid, joined, projectName })
         setQuantity(0)
         
         // send qty update to backend
-        fetch(`${url}checkin/${projectid}/${name}/${quantity}`)
+        fetch(`${url}checkin/${projectid}/${hwsetName}/${quantity}`)
           .then((response) => response.json())
           .then((data) => alert(data.response))
 
@@ -42,7 +47,7 @@ function HWSet({ name, capacity, availability, projectid, joined, projectName })
         }
         setQuantity(0)
   
-        fetch(`${url}checkout/${projectid}/${name}/${amountCheckedOut}`)
+        fetch(`${url}checkout/${projectid}/${hwsetName}/${amountCheckedOut}`)
           .then((response) => response.json())
           .then((data) => alert(data.response))
       }
@@ -51,8 +56,8 @@ function HWSet({ name, capacity, availability, projectid, joined, projectName })
 
     return (
         <Stack direction='row' spacing={2}>
-          <Box sx={{ width: 150 }}>{name}: {hwAvailability}/{capacity}</Box>
-          <TextField value={quantity === 0 ? '' : quantity} type="number" id="outlined-basic" label="Enter Quantity" variant="outlined" onChange={(e) => {
+          <Box sx={{ width: 150 }}>{hwsetName}: {hwAvailability}/{capacity}</Box>
+          <TextField value={quantity === 0 ? '' : quantity} type="number" id="outlined-basic" helperText="Enter Quantity" variant="outlined" onChange={(e) => {
             if (e.target.value < 0) { 
               e.target.value = 0
             }

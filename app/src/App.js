@@ -16,7 +16,7 @@ function App() {
         <LoginPage setUser={setUser}></LoginPage>
         :
           
-          <Projects user={user}></Projects>
+          <Projects></Projects>
       }
     </Box>
   )

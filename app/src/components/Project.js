@@ -3,9 +3,11 @@ import { Stack, Box } from "@mui/system"
 import HWSet from "./HWSet"
 import { useState } from "react"
 
-function Project({name, hwsets, users, projectid, userInProject}) {
+function Project({hwsets, project}) {
     const user = localStorage.getItem('user')
-    const [joined, setJoined] = useState(userInProject)
+    const [joined, setJoined] = useState(project.Users.includes(user) ? true : false)
+    const projectid = project.ProjectID
+    const name = project.ProjectName
     const url = process.env.REACT_APP_BASE_URL
 
     const joinProjectHandler = () => {
@@ -32,11 +34,11 @@ function Project({name, hwsets, users, projectid, userInProject}) {
 
     const renderedHWSets = hwsets.map((hwset) => {
         return (
-            <HWSet key={hwset.Name} name={hwset.Name} availability={hwset.Availability} capacity={hwset.Capacity} projectid={projectid} projectName={name} joined={joined}/>
+            <HWSet key={hwset.Name} hwset={hwset} project={project} joined={joined}/>
         )
     })
 
-    const renderedUsers = users.map((user) => {
+    const renderedUsers = project['Authorized Users'].map((user) => {
         return user + ' '
     })
 
