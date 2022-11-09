@@ -1,30 +1,27 @@
 import { TextField, Button, Stack, Box } from "@mui/material"
 import { useState } from "react"
 
-function HWSet({ name, capacity, availability, projectid, joined, projectName }) {
-    const [hwAvailability, setHwAvailability] = useState(availability)
+function HWSet({hwset, project, joined, setUpdateProjects, updateProjects}) {
+    const hwsetName = hwset.Name
+    const capacity = hwset.Capacity
+    const availability = hwset.Availability
+    const projectid = project.ProjectID
+    const projectName = project.ProjectName
     const [quantity, setQuantity] = useState(0)
     const url = process.env.REACT_APP_BASE_URL 
-
 
     const checkInHandler = () => {
       if (!joined) {
         alert(`You must join ${projectName} to check in hardware`)
       } else {
-
-        const newAvailiability = Number(hwAvailability) + Number(quantity)
-        if (newAvailiability > capacity) {
-          setHwAvailability(capacity)
-        } else {
-          setHwAvailability(newAvailiability)
-        }
-        setQuantity(0)
-        
         // send qty update to backend
-        fetch(`${url}checkin/${projectid}/${name}/${quantity}`)
+        fetch(`${url}checkin/${projectid}/${hwsetName}/${quantity}`)
           .then((response) => response.json())
-          .then((data) => alert(data.response))
-
+          .then((data) => {
+            alert(data.response)
+            setUpdateProjects(!updateProjects)
+          })
+        setQuantity(0)
       }
     }
 
@@ -32,27 +29,23 @@ function HWSet({ name, capacity, availability, projectid, joined, projectName })
       if (!joined) {
         alert(`You must join ${projectName} to check out hardware`)
       } else {
-        var amountCheckedOut
-        if (quantity > hwAvailability) {
-          amountCheckedOut = hwAvailability
-          setHwAvailability(0)
-        } else {
-          setHwAvailability(hwAvailability - quantity)
-          amountCheckedOut = quantity
-        }
-        setQuantity(0)
-  
-        fetch(`${url}checkout/${projectid}/${name}/${amountCheckedOut}`)
+        fetch(`${url}checkout/${projectid}/${hwsetName}/${quantity}`)
           .then((response) => response.json())
-          .then((data) => alert(data.response))
+          .then((data) => {
+            alert(data.response)
+            setUpdateProjects(!updateProjects)
+          })
+        setQuantity(0)
       }
-      
     }
-
+    console.log(hwsetName, project.HWSets.hwsetName)
     return (
-        <Stack direction='row' spacing={2}>
-          <Box sx={{ width: 150 }}>{name}: {hwAvailability}/{capacity}</Box>
-          <TextField value={quantity === 0 ? '' : quantity} type="number" id="outlined-basic" label="Enter Quantity" variant="outlined" onChange={(e) => {
+        <Stack direction='row' spacing={2}  >
+          <Stack>
+            <Box sx={{ width: 150 }}>{hwsetName}: {availability}/{capacity}</Box>
+            <Box sx={{ width: 150 }}>Checked Out: {project.HWSets[hwsetName]}</Box>
+          </Stack>
+          <TextField sx={{ maxWidth: 150 }} value={quantity === 0 ? '' : quantity} type="number" id="outlined-basic" helperText="Enter Quantity" variant="outlined" onChange={(e) => {
             if (e.target.value < 0) { 
               e.target.value = 0
             }
@@ -61,8 +54,8 @@ function HWSet({ name, capacity, availability, projectid, joined, projectName })
             }
             setQuantity(e.target.value)
           }} />
-          <Button variant="outlined" onClick={checkInHandler}>Check In</Button>
-          <Button variant="outlined" onClick={checkOutHandler}>Check Out</Button>
+          <Button variant="outlined" onClick={checkInHandler} sx={{ maxHeight: 55, ':hover': {bgcolor: 'primary.main', color: 'white'}}}>Check In</Button>
+          <Button variant="outlined" onClick={checkOutHandler} sx={{ maxHeight: 55, ':hover': {bgcolor: 'primary.main', color: 'white'}}}>Check Out</Button>
         </Stack>
     )
   }

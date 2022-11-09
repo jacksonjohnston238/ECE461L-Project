@@ -4,11 +4,13 @@ import ProjectMenu from "./ProjectMenu"
 import { useEffect, useState } from 'react'
 import Select from "react-select"
 
-function Projects({user}) {
+function Projects() {
   const url = process.env.REACT_APP_BASE_URL 
+  const user = localStorage.getItem("user")
   const [projects, setProjects] = useState([])
+  const [updateProjects, setUpdateProjects] = useState(false)
   const [hwsets, setHwsets] = useState([])
-  const [selectedProject, setSelectedProject] = useState([])
+  const [selection, setSelection] = useState(JSON.parse(localStorage.getItem('project-selection')) === null ? null : localStorage.getItem('project-selection'))
 
   useEffect(() => {
     fetch(`${url}projects/${user}`)
@@ -17,25 +19,22 @@ function Projects({user}) {
         setProjects(data.projects)
         setHwsets(data.hwsets)
       })
-      setSelectedProject(renderedProjects[0])
-  }, [])
-
-  if (projects === []) {
-    return <Box></Box>
-  }
+  }, [updateProjects])
+  
 
   const renderedProjects = projects.map((project) => {
     return (
       <Project 
         key={project.ProjectID}
-        projectid={project.ProjectID} 
-        name={project.ProjectName} 
-        users={project['Authorized Users']} 
+        project={project}
         hwsets={hwsets}
-        userInProject={project.Users.includes(user) ? true : false}>
+        setUpdateProjects={setUpdateProjects}
+        updateProjects={updateProjects}
+        >
       </Project>
     )
   })
+
 
   var authorizedProjects = projects.map((project, index) => {
     var option = {
@@ -46,25 +45,31 @@ function Projects({user}) {
 
   authorizedProjects.unshift({label: "Display all Projects", value: null})
 
+  if (projects.length === 0) {
+    return <Box></Box>
+  }
+
   return (
-    <Box sx={{ p: 10}}>
+    <Stack sx={{ p: 10}}>
       <Stack spacing={5}>
         <ProjectMenu></ProjectMenu>
-        <Stack sx={{ border: 1, borderColor: 'black', p: 5 }} spacing={2}>
+        <Stack sx={{ border: 1, borderColor: 'black', p: 5, borderRadius: 1, margin: 'auto' }} spacing={2}>
             <Box sx={{ fontWeight: 500 }}>Projects</Box>
-            <Select options={authorizedProjects} placeholder={'Project Name (ProjectID)'} onChange={(choice) =>{
+            <Select options={authorizedProjects} placeholder={selection !== null ? projects[selection].ProjectName : 'Display All Projects'} onChange={(choice) =>{
                 if(choice.value == null){
-                  setSelectedProject(renderedProjects)
+                  localStorage.setItem('project-selection', null)
+                  setSelection(null)
                 }else{
-                  setSelectedProject(renderedProjects[choice.value])
+                  localStorage.setItem('project-selection', choice.value)
+                  setSelection(choice.value)
                 }
             }}/>
             <Stack spacing={2}>
-              {selectedProject}
+              {selection === null ? renderedProjects : renderedProjects[selection]}
             </Stack>
         </Stack>
       </Stack>
-    </Box>
+    </Stack>
   )
 }
 
