@@ -53,7 +53,7 @@ function Projects() {
     <Box sx={{ p: 10}}>
       <Stack spacing={5}>
         <ProjectMenu></ProjectMenu>
-        <Stack sx={{ border: 1, borderColor: 'black', p: 5 }} spacing={2}>
+        <Stack sx={{ border: 1, borderColor: 'black', p: 5, borderRadius: 1 }} spacing={2}>
             <Box sx={{ fontWeight: 500 }}>Projects</Box>
             <Select options={authorizedProjects} placeholder={selection !== null ? projects[selection].ProjectName : 'Display All Projects'} onChange={(choice) =>{
                 if(choice.value == null){

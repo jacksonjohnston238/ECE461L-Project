@@ -49,17 +49,22 @@ function Project({hwsets, project, setUpdateProjects, updateProjects}) {
     })
 
     return (
-        <Stack direction='row' spacing={2} sx={{ border: 1, borderColor: 'lightblue', p: 2}}>
+        <Stack direction='row' spacing={2} sx={{ border: 1, borderColor: 'lightblue', p: 2, borderRadius: 2, justifyContent: 'space-between'}}>
             <Box sx={{ fontWeight: 500, width: 100 }}>{name}</Box>
-            <Box sx={{ fontWeight: 300, width: 200 }}>{renderedUsers}</Box>
+            <Stack>
+                <Box sx={{ fontWeight: 300, width: 200 }}>{renderedUsers}</Box>
+                /* add users here */
+            </Stack>
             <Stack spacing={2}>
                 {renderedHWSets}
             </Stack>
-            {!joined ? 
-                <Button variant='contained' onClick={joinProjectHandler}>Join Project</Button> 
-                : 
-                <Button variant='contained' onClick={leaveProjectHandler}>Leave Project</Button>
-            }
+            <Stack sx={{justifyContent: 'space-around'}}>
+                {!joined ? 
+                    <Button variant='contained' onClick={joinProjectHandler}  sx={{ border: 1, borderColor: 'primary.main', height: 65, ':hover': {color: 'primary.main', bgcolor: 'white'} }}>Join Project</Button> 
+                    : 
+                    <Button variant='contained' onClick={leaveProjectHandler}  sx={{ border: 1, borderColor: 'primary.main', height: 65, ':hover': {color: 'primary.main', bgcolor: 'white'} }}>Leave Project</Button>
+                }
+            </Stack>
         </Stack>
     )
   }

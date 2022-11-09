@@ -19,9 +19,9 @@ function ProjectMenu(){
     
     return(
     <Box>
-        <Stack sx={{ border: 1, borderColor: 'black', p: 5 }} spacing={2}>
+        <Stack sx={{ border: 1, borderColor: 'black', p: 5, borderRadius: 1 }} spacing={2}>
           <Box sx={{ fontWeight: 500 }}>Create Project</Box>
-          <Stack direction='row' spacing={2} sx={{ border: 1, borderColor: 'lightblue', p: 2}}>
+          <Stack direction='row' spacing={2} sx={{ border: 1, borderColor: 'lightblue', p: 2, borderRadius: 2 }}>
           <Box sx={{ fontWeight: 500}}>
             Project Name
             <TextField value={projectName === 0 ? '' : projectName} type="string" id="outlined-basic" label="Enter Name" variant="filled" onChange={(e) =>{

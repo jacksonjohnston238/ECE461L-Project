@@ -38,11 +38,14 @@ function HWSet({hwset, project, joined, setUpdateProjects, updateProjects}) {
         setQuantity(0)
       }
     }
-
+    console.log(hwsetName, project.HWSets.hwsetName)
     return (
-        <Stack direction='row' spacing={2}>
-          <Box sx={{ width: 150 }}>{hwsetName}: {availability}/{capacity}</Box>
-          <TextField value={quantity === 0 ? '' : quantity} type="number" id="outlined-basic" helperText="Enter Quantity" variant="outlined" onChange={(e) => {
+        <Stack direction='row' spacing={2}  >
+          <Stack>
+            <Box sx={{ width: 150 }}>{hwsetName}: {availability}/{capacity}</Box>
+            <Box sx={{ width: 150 }}>Checked Out: {project.HWSets[hwsetName]}</Box>
+          </Stack>
+          <TextField sx={{ maxWidth: 150 }} value={quantity === 0 ? '' : quantity} type="number" id="outlined-basic" helperText="Enter Quantity" variant="outlined" onChange={(e) => {
             if (e.target.value < 0) { 
               e.target.value = 0
             }
@@ -51,8 +54,8 @@ function HWSet({hwset, project, joined, setUpdateProjects, updateProjects}) {
             }
             setQuantity(e.target.value)
           }} />
-          <Button variant="outlined" onClick={checkInHandler}>Check In</Button>
-          <Button variant="outlined" onClick={checkOutHandler}>Check Out</Button>
+          <Button variant="outlined" onClick={checkInHandler} sx={{ maxHeight: 55, ':hover': {bgcolor: 'primary.main', color: 'white'}}}>Check In</Button>
+          <Button variant="outlined" onClick={checkOutHandler} sx={{ maxHeight: 55, ':hover': {bgcolor: 'primary.main', color: 'white'}}}>Check Out</Button>
         </Stack>
     )
   }
