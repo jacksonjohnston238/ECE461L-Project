@@ -220,6 +220,20 @@ def createProject(projectName, description, projectID, authorizedUsers):
         'response': response
     }
 
+@app.route("/addusers/<string:userID>/<string:projectID>")
+def adduser(userID, projectID):
+    project = projects.find_one({"ProjectID": projectID})
+    authUsers = project['Authorized Users']
+
+    authUsers.append(userID)
+    projects.update_one({"ProjectID": projectID}, {"$set": {"Authorized Users": authUsers}})
+
+    response = f'added {userID} to project {projectID}'
+
+    return {
+        'response' : response
+    }
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
 
