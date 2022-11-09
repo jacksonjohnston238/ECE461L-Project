@@ -1,12 +1,12 @@
-import { Button } from "@mui/material"
+import { Button, TextField } from "@mui/material"
 import { Stack, Box } from "@mui/system"
 import HWSet from "./HWSet"
 import { useState } from "react"
-import Select from "react-select"
 
 function Project({hwsets, project, setUpdateProjects, updateProjects}) {
     const user = localStorage.getItem('user')
     const [joined, setJoined] = useState(project.Users.includes(user) ? true : false)
+    const [textValue, setTextValue] = useState('')
     const projectid = project.ProjectID
     const name = project.ProjectName
     const url = process.env.REACT_APP_BASE_URL
@@ -33,13 +33,22 @@ function Project({hwsets, project, setUpdateProjects, updateProjects}) {
             })
     }
 
-    const addUserHandler = (choice) => {
-        fetch(`${url}addusers/${choice.value}/${projectid}`)
-            .then((response) => response.json())
-            .then((data) => {
-                alert(data.response)
-                setUpdateProjects(!updateProjects)
-            })
+    const addUserHandler = () => {
+        if (textValue === '') {
+            alert('Please enter valid User ID')
+        }else {
+            fetch(`${url}addusers/${textValue}/${projectid}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.response === 'user does not exist' || data.response === 'user already authorized'){
+                        alert(data.response)
+                    }else{
+                        alert(data.response)
+                        setUpdateProjects(!updateProjects)
+                    }
+                })
+                setTextValue('')
+        }
     }
 
     const renderedHWSets = hwsets.map((hwset) => {
@@ -58,25 +67,18 @@ function Project({hwsets, project, setUpdateProjects, updateProjects}) {
         return user + ' '
     })
 
-    // const userOptions = *variable that non-auth users will be in*.map((user) => {
-    //     var option = {
-    //         label: user.UserID, value: user.UserID
-    //     }
-    //     return option;
-    // })
-
-    const userOptions = [   //dummy options to test select component
-        {label: 'test1', value: 'test1'},
-        {label: 'test2', value: 'test2'},
-        {label: 'test3', value: 'test3'}
-    ]
-
     return (
         <Stack direction='row' spacing={2} sx={{ border: 1, borderColor: 'lightblue', p: 2, borderRadius: 2, justifyContent: 'space-evenly'}}>
             <Box sx={{ fontWeight: 500, width: 100 }}>{name}</Box>
             <Stack justifyContent={'space-between'}>
                 <Box sx={{ fontWeight: 300, width: 200 }}>{renderedUsers}</Box>
-                <Select options={userOptions} placeholder={"Add User"} onChange={null /*addUserHandler(choice)*/}/>
+                <Stack spacing={2} sx={{ width: 200 }}>
+                    <TextField value={textValue} fullWidth id="outlined-basic" label="Enter a valid User ID" 
+                    variant="outlined" onChange={(e) => {
+                        setTextValue(e.target.value)}
+                    } />
+                    <Button variant="outlined" onClick={addUserHandler} fullWidth sx={{ ':hover': {bgcolor: 'primary.main', color: 'white'}}}>Add User</Button>
+                </Stack>
             </Stack>
             <Stack spacing={2}>
                 {renderedHWSets}
