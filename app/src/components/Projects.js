@@ -45,28 +45,29 @@ function Projects() {
 
   authorizedProjects.unshift({label: "Display all Projects", value: null})
 
-  if (projects.length === 0) {
-    return <Box></Box>
-  }
-
   return (
     <Stack sx={{ p: 10}}>
       <Stack spacing={5}>
         <ProjectMenu></ProjectMenu>
         <Stack sx={{ border: 1, borderColor: 'black', p: 5, borderRadius: 1, margin: 'auto' }} spacing={2}>
             <Box sx={{ fontWeight: 500 }}>Projects</Box>
-            <Select options={authorizedProjects} placeholder={selection !== null ? projects[selection].ProjectName : 'Display All Projects'} onChange={(choice) =>{
-                if(choice.value == null){
-                  localStorage.setItem('project-selection', null)
-                  setSelection(null)
-                }else{
-                  localStorage.setItem('project-selection', choice.value)
-                  setSelection(choice.value)
-                }
-            }}/>
-            <Stack spacing={2}>
-              {selection === null ? renderedProjects : renderedProjects[selection]}
-            </Stack>
+              {projects.length !== 0 ? 
+              <Box>
+                <Select options={authorizedProjects} placeholder={selection !== null ? projects[selection].ProjectName : 'Display All Projects'} onChange={(choice) =>{
+                  if(choice.value == null){
+                    localStorage.setItem('project-selection', null)
+                    setSelection(null)
+                  }else{
+                    localStorage.setItem('project-selection', choice.value)
+                    setSelection(choice.value)
+                  }
+              }}/>
+              <Stack spacing={2}>
+                {selection === null ? renderedProjects : renderedProjects[selection]}
+              </Stack>
+            </Box>
+            :
+            <Box></Box>}
         </Stack>
       </Stack>
     </Stack>
