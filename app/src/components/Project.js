@@ -2,6 +2,7 @@ import { Button } from "@mui/material"
 import { Stack, Box } from "@mui/system"
 import HWSet from "./HWSet"
 import { useState } from "react"
+import Select from "react-select"
 
 function Project({hwsets, project, setUpdateProjects, updateProjects}) {
     const user = localStorage.getItem('user')
@@ -32,6 +33,15 @@ function Project({hwsets, project, setUpdateProjects, updateProjects}) {
             })
     }
 
+    const addUserHandler = (choice) => {
+        fetch(`${url}addusers/${choice.value}/${projectid}`)
+            .then((response) => response.json())
+            .then((data) => {
+                alert(data.response)
+                setUpdateProjects(!updateProjects)
+            })
+    }
+
     const renderedHWSets = hwsets.map((hwset) => {
         return (
             <HWSet 
@@ -48,12 +58,25 @@ function Project({hwsets, project, setUpdateProjects, updateProjects}) {
         return user + ' '
     })
 
+    // const userOptions = *variable that non-auth users will be in*.map((user) => {
+    //     var option = {
+    //         label: user.UserID, value: user.UserID
+    //     }
+    //     return option;
+    // })
+
+    const userOptions = [   //dummy options to test select component
+        {label: 'test1', value: 'test1'},
+        {label: 'test2', value: 'test2'},
+        {label: 'test3', value: 'test3'}
+    ]
+
     return (
         <Stack direction='row' spacing={2} sx={{ border: 1, borderColor: 'lightblue', p: 2, borderRadius: 2, justifyContent: 'space-evenly'}}>
             <Box sx={{ fontWeight: 500, width: 100 }}>{name}</Box>
-            <Stack>
+            <Stack justifyContent={'space-between'}>
                 <Box sx={{ fontWeight: 300, width: 200 }}>{renderedUsers}</Box>
-                /* add users here */
+                <Select options={userOptions} placeholder={"Add User"} onChange={null /*addUserHandler(choice)*/}/>
             </Stack>
             <Stack spacing={2}>
                 {renderedHWSets}
