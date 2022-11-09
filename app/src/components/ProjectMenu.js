@@ -21,31 +21,39 @@ function ProjectMenu(){
     <Box>
         <Stack sx={{ border: 1, borderColor: 'black', p: 5, borderRadius: 1 }} spacing={2}>
           <Box sx={{ fontWeight: 500 }}>Create Project</Box>
-          <Stack direction='row' spacing={2} sx={{ border: 1, borderColor: 'lightblue', p: 2, borderRadius: 2 }}>
+          <Stack direction='row' spacing={5} sx={{ border: 1, borderColor: 'lightblue', p: 2, borderRadius: 2, justifyContent: 'space-evenly' }}>
           <Box sx={{ fontWeight: 500}}>
-            Project Name
-            <TextField value={projectName === 0 ? '' : projectName} type="string" id="outlined-basic" label="Enter Name" variant="filled" onChange={(e) =>{
-                setProjectName(e.target.value)
-            }}/>
+            <Stack>
+              Project Name
+              <TextField value={projectName === 0 ? '' : projectName} type="string" id="outlined-basic" label="Enter Name" variant="filled" onChange={(e) =>{
+                  setProjectName(e.target.value)
+              }}/>
+            </Stack>
           </Box>
           <Box sx={{ fontWeight: 500 }}>
-            Description
-            <TextField value={description === 0 ? '' : description} type="string" id="outlined-basic" label="Enter Description" variant="filled" onChange={(e) =>{
-                setDescription(e.target.value)
-            }}/>
+            <Stack>
+              Description
+              <TextField value={description === 0 ? '' : description} type="string" id="outlined-basic" label="Enter Description" variant="filled" onChange={(e) =>{
+                  setDescription(e.target.value)
+              }}/>
+            </Stack>
           </Box>
             
           <Box sx={{ fontWeight: 500 }}>
-            Project ID
-            <TextField value={projectID === 0 ? '' : projectID} type="string" id="outlined-basic" label="Enter Project ID" variant="filled" onChange={(e) =>{
-                setProjectID(e.target.value)
-            }}/>
+            <Stack>
+              Project ID
+              <TextField value={projectID === 0 ? '' : projectID} type="string" id="outlined-basic" label="Enter Project ID" variant="filled" onChange={(e) =>{
+                  setProjectID(e.target.value)
+              }}/>
+            </Stack>
            </Box>
            <Box sx={{ fontWeight: 500 }}>
-            Authorized Users
-            <TextField value={authorizedUsers === 0 ? '' : authorizedUsers} type="string" id="outlined-basic" label="Ex: userid1,userid2,..." variant="filled" onChange={(e) =>{
-                setAuthorizedUsers(e.target.value)
-            }}/>
+           <Stack>
+              Authorized Users
+              <TextField value={authorizedUsers === 0 ? '' : authorizedUsers} type="string" id="outlined-basic" label="Ex: userid1,userid2,..." variant="filled" onChange={(e) =>{
+                  setAuthorizedUsers(e.target.value)
+              }}/>
+            </Stack>
            </Box>
         </Stack>
         <Button variant='contained' size= 'large'

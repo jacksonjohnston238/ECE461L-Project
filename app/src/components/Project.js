@@ -49,7 +49,7 @@ function Project({hwsets, project, setUpdateProjects, updateProjects}) {
     })
 
     return (
-        <Stack direction='row' spacing={2} sx={{ border: 1, borderColor: 'lightblue', p: 2, borderRadius: 2, justifyContent: 'space-between'}}>
+        <Stack direction='row' spacing={2} sx={{ border: 1, borderColor: 'lightblue', p: 2, borderRadius: 2, justifyContent: 'space-evenly'}}>
             <Box sx={{ fontWeight: 500, width: 100 }}>{name}</Box>
             <Stack>
                 <Box sx={{ fontWeight: 300, width: 200 }}>{renderedUsers}</Box>

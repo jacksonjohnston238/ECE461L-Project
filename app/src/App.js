@@ -29,13 +29,14 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box className="App">
-        <Header user={user} setUser={setUser}></Header>
-        {user === '' ? 
-          <LoginPage setUser={setUser}></LoginPage>
-          :
-            
-            <Projects></Projects>
-        }
+        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <Header user={user} setUser={setUser}></Header>
+          {user === '' ? 
+            <LoginPage setUser={setUser}></LoginPage>
+            :
+              <Projects></Projects>
+          }
+        </Box>
       </Box>
     </ThemeProvider>
   )
