@@ -16,11 +16,17 @@ function App() {
       },
       secondary: {
         main: '#7289da',
-      },
+      }
     },
     typography: {
       fontFamily: [
-        'Segoe UI','sans-serif'
+        '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
       ].join(',')
     }
   })

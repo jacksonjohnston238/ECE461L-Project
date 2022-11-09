@@ -38,7 +38,7 @@ function HWSet({hwset, project, joined, setUpdateProjects, updateProjects}) {
         setQuantity(0)
       }
     }
-    console.log(hwsetName, project.HWSets.hwsetName)
+    
     return (
         <Stack direction='row' spacing={2}  >
           <Stack>

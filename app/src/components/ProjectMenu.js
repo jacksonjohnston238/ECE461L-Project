@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { Stack, Box, TextField, Button, Link } from "@mui/material"
 
-function ProjectMenu(){
+function ProjectMenu({updateProjects, setUpdateProjects}){
+    const user = localStorage.getItem('user')
     const [projectName, setProjectName] = useState('')
     const [description, setDescription] = useState('')
     const [projectID, setProjectID] = useState('')
@@ -9,12 +10,25 @@ function ProjectMenu(){
     const url = process.env.REACT_APP_BASE_URL
 
     const handleProjectCreate = () => {
-      fetch(`${url}createproject/${projectName}/${description}/${projectID}/${authorizedUsers}`)
-      .then((response) => response.json())
-            .then((data) => {
-                alert(data.response)
-            }).then(window.location.reload())
-      
+      let authUsers = authorizedUsers === '' ? user : authorizedUsers
+      if (!authUsers.split(',').includes(user)) {
+        authUsers += (',' + user)
+      }
+      if (projectName === '') {
+        alert('Please enter Project Name')
+      } else if (description === '') {
+        alert('Please enter Project Description')
+      } else if (projectID === '') {
+        alert('Please enter Project ID')
+      } else {
+        fetch(`${url}createproject/${projectName}/${description}/${projectID}/${authUsers}`)
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.response)
+            setUpdateProjects(!updateProjects)
+          }
+        )
+      }
     }
     
     return(

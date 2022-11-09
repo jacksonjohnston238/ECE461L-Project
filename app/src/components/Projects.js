@@ -48,7 +48,7 @@ function Projects() {
   return (
     <Stack sx={{ p: 10}}>
       <Stack spacing={5}>
-        <ProjectMenu></ProjectMenu>
+        <ProjectMenu updateProjects={updateProjects} setUpdateProjects={setUpdateProjects}></ProjectMenu>
         <Stack sx={{ border: 1, borderColor: 'black', p: 5, borderRadius: 1, margin: 'auto' }} spacing={2}>
             <Box sx={{ fontWeight: 500 }}>Projects</Box>
               {projects.length !== 0 ? 
