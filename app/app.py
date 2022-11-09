@@ -2,22 +2,21 @@ from flask import Flask
 from flask_cors import CORS, cross_origin
 # from and import statements in order to access specific functions with these libraries
 from pymongo import MongoClient
-from cryptography.fernet import Fernet
+from flask_bcrypt import Bcrypt
 import json
 client = MongoClient("mongodb+srv://ecedatabaseuser:wHHLGhPoC95vByvV@cluster0.gopiidc.mongodb.net/?retryWrites=true&w=majority")
 # Initializes the database to be the test database in the client in MongoDB
 database = client["ECE461L-FinalProject-Database"]
-users = database.Users
+users = database.EncryptedUsers
 hwsets = database.HardwareSets
 projects = database.Projects
 
-key = Fernet.generate_key()
-fernet = Fernet(key)
+
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 
 CORS(app)
-
+bcrypt = Bcrypt(app)
 
 @app.route("/")
 def index():
@@ -129,18 +128,33 @@ def leaveProject(projectid, userid):
 @app.route("/signup/<string:username>/<string:userID>/<string:password>/<string:confirmPassword>")
 def signup(username, userID, password, confirmPassword):
     if password == confirmPassword:
-        # encryptedID = fernet.encrypt(userID.encode())
-        encryptedPassword = fernet.encrypt(password.encode())
+        pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+        id_hash = bcrypt.generate_password_hash(userID).decode('utf-8')
         newUserDoc = {
             'Username': username,
-            'UserID': userID,
-            'Password': encryptedPassword
+            'UserID': id_hash,
+            'Password': pw_hash
         }
-        if users.find_one({"UserID": userID}) != None:
-            response = 'account with that userID already exists'
-        else:
+        
+        result = False
+        for user in users.find():
+            idCheck = user['UserID']
+            result = bcrypt.check_password_hash(idCheck, userID)
+            if result:
+                response = 'account with that userID already exists'
+                break
+            
+        if not result:
             users.insert_one(newUserDoc)
             response = 'new user created'
+        
+
+        #if users.find_one({"UserID": userID}) != None:
+        #    response = 'account with that userID already exists'
+        #else:
+        #    users.insert_one(newUserDoc)
+        #    response = 'new user created'
+
     else:
         response = 'passwords must match'
     return {
@@ -151,16 +165,30 @@ def signup(username, userID, password, confirmPassword):
 
 @app.route("/login/<string:userID>/<string:password>")
 def login(userID, password):
-    # encryptedID = fernet.encrypt(userID.encode())
-    user_query = {"UserID": userID}
-    user_document = users.find_one(user_query)
-    if user_document == None:
+    result = False
+    for user in users.find():
+        user_document = user
+        idCheck = user['UserID']
+        result = bcrypt.check_password_hash(idCheck, userID)
+        if result:
+            break
+    
+    if not result:
         return {
             'response' : 'userID not found'
         }
+
+    #user_query = {"UserID": userID}
+    #user_document = users.find_one(user_query)
+    #if user_document == None:
+    #    return {
+    #        'response' : 'userID not found'
+    #    }
+
     passwordCheck = user_document["Password"]
-    decryptedCheck = fernet.decrypt(passwordCheck).decode()
-    if password == decryptedCheck:
+    result = bcrypt.check_password_hash(passwordCheck, password)
+
+    if result:
         response = 'successfully logged in'
 
     else:
