@@ -10,4 +10,5 @@ six==1.16.0
 Werkzeug==2.2.2
 zipp==3.10.0
 pymongo~=4.3.2
-cryptography~=38.0.3
+bcrypt==4.0.1
+flask-bcrypt==1.0.1
