@@ -36,7 +36,7 @@ function Login({toggleLoginOrSignup, setUser}){
         pb: 3
       }}
     >
-            <Box sx={{border: 4, borderColor: 'blueviolet', p:5, pt:1}}>
+            <Box sx={{border: 4, borderRadius: 2, borderColor: 'primary.main', p:8, pt:1}}>
             <Stack spacing={2}>
                 <h1>Login</h1>
                 <h2>User ID</h2>
