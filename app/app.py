@@ -220,6 +220,38 @@ def createProject(projectName, description, projectID, authorizedUsers):
         'response': response
     }
 
+@app.route("/addusers/<string:userID>/<string:projectID>")
+def adduser(userID, projectID):
+    result = False
+    for user in users.find():
+        user_document = user
+        idCheck = user['UserID']
+        result = bcrypt.check_password_hash(idCheck, userID)
+        if result:
+            break
+    
+    if not result:
+        return {
+            'response' : 'user does not exist'
+        }
+    
+    project = projects.find_one({"ProjectID": projectID})
+    authUsers = project['Authorized Users']
+
+    if(userID in authUsers):
+        return {
+            'response' : 'user already authorized'
+        }
+
+    authUsers.append(userID)
+    projects.update_one({"ProjectID": projectID}, {"$set": {"Authorized Users": authUsers}})
+
+    response = f'added {userID} to project {projectID}'
+
+    return {
+        'response' : response
+    }
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
 
